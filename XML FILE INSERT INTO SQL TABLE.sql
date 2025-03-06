@@ -1,34 +1,10 @@
 use pr
 
-select * from (select top 1 * from update_table order by EmployeeID asc) as a
-UNION ALL
-select * from(select top 1 * from update_table order by EmployeeID desc) as b;
-
-with row as (
-select top 1 * from update_table order by EmployeeID asc
-UNION ALL
-select top 1 * from update_table order by EmployeeID desc
-)
-select * from row;
-
-select * from update_table where EmployeeID in (
-select top 50 percent EmployeeID from update_table order by EmployeeID asc);
-
-select * from update_table where EmployeeID in (
-select top 50 percent EmployeeID from update_table order by EmployeeID desc
-);
-
 CREATE TABLE emp_table (
     EmployeeID INT,
     Department VARCHAR(50),
     Salary DECIMAL(18, 2)
 );
-
-
-select Department,
-cast(round((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM update_table)),2) as decimal(10,2)) AS percentage
-from update_table
-group by Department;
 
 
 CREATE TABLE SELLER 
@@ -60,26 +36,6 @@ CROSS APPLY T.Y. nodes ('dataset/record' ) AS MY_XML (record) ;
 SELECT * FROM SELLER
 
 select * from update_table for xml PATH('RECORD') ,ROOT('DATASET');
-
--------------------------------------------------------------------------------------------------------------------
-
-INSERT INTO update_table
-
-SELECT
-P.F_RECORD.query ('EmployeeID' ) . value ('.', 'INT' ),
-P.F_RECORD.query ('FirstName' ) . value ('.', 'nvarchar (50)'),
-P.F_RECORD.query ('LastName' ) . value ('.', 'nvarchar (50)'),
-P.F_RECORD.query ('Department' ) . value ('.', 'nvarchar (50)' ),
-P.F_RECORD.query ('Salary' ) . value ('.', 'decimal (10,2)' ),
-P.F_RECORD.query ('HireDate' ) . value ('.', 'date' )
-
-FROM (SELECT CAST (M AS xml)
-FROM OPENROWSET (BULK 'D:\film\XML_DATA.xml' , SINGLE_BLOB) AS T(M) ) AS s(N)
-CROSS APPLY s.N. nodes ('DATASET/RECORD' ) AS P (F_RECORD) ;
-
--------------------------------------------------------------------------------------------------------------------
-
-
 
 -------------------------------------------------------------------------------------------------------------------
 ---this query show onlay Column Name--
@@ -162,20 +118,6 @@ WITH (
 
 SELECT * FROM EmployeeData;
 
--------------------------------------------------------------------------------------------------------------------
-
-CREATE EXTERNAL TABLE EmployeeData (
-    EmployeeID INT,
-    FirstName NVARCHAR(50),
-    LastName NVARCHAR(50)
-)
-WITH (
-    LOCATION = 'D:/file/Avro_DATA.avro',
-    DATA_SOURCE = MyDataSource,
-    FILE_FORMAT = MyAvroFormat
-);
-
-SELECT * FROM EmployeeData;
 -------------------------------------------------------------------------------------------------------------------
 --------------------XML CODE FILE----------------------------------
 -------------------------------------------------------------------------------------------------------------------
@@ -403,18 +345,3 @@ BEGIN
             DROP TABLE #TEMP_NEW_TABLE;
     END CATCH
 END;
-
-
-
-----My Resume URl
-https://app.luminpdf.com/viewer/67b80e3a235a793816006bbd
-
-"E:\RUSHII\class clloud\class notes\project\New folder\SALES.bacpac"
-
-ASSIGNMENT_NO_01
-
-RUSHIKESH\SQLEXPRESS
-
-RUSHIKESH\SQLEXPRESS
-
-site:lever.co OR site:greenhouse.io "SQL Developer"
